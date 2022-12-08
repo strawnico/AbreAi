@@ -26,8 +26,9 @@ a {
   background-color: #ffffff;
   background-image: url("../public/Wpp.svg");
   background-position: top center;
-  background-size: 100% auto;
+  background-size: 100%;
   background-repeat: no-repeat;
+  position: absolute;
 }
 
 /* @media (prefers-color-scheme: dark) {

@@ -10,7 +10,8 @@ export default function Home() {
   const [placa, setPlaca] = useState("");
   const [endereco, setEndereco] = useState("");
   const [entregador, setEntregador] = useState("");
-  const [saida, setSaida] = useState("");
+  const [saidaPrevista, setSaidaPrevista] = useState("");
+  const [chegadaPrevista, setChegadaPrevista] = useState("");
   const [chegada, setChegada] = useState("");
 
   const addDemand = async () => {
@@ -23,8 +24,10 @@ export default function Home() {
         plate: placa.toUpperCase(),
         adress: endereco,
         name: entregador,
-        exit: saida,
+        exitPrevista: saidaPrevista,
+        arrivePrevista: chegadaPrevista,
         arrive: chegada,
+        
       });
       window.location.pathname = "demandas/dashboard";
     } catch (error) {
@@ -89,7 +92,7 @@ export default function Home() {
             <div>
               <p>Horario saída</p>
               <input
-                onChange={(e) => setSaida(e.target.value)}
+                onChange={(e) => setSaidaPrevista(e.target.value)}
                 className=" w-36 border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
                 placeholder="00:00"
               ></input>
@@ -97,7 +100,7 @@ export default function Home() {
             <div>
               <p>Horario Chegada</p>
               <input
-                onChange={(e) => setChegada(e.target.value)}
+                onChange={(e) => setChegadaPrevista(e.target.value)}
                 className=" w-36 border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
                 placeholder="00:00"
               ></input>
