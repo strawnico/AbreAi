@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Menina from "../public/menina.svg"
+import Menina from "../public/menina.svg";
 
 export default function Home() {
   return (
@@ -16,35 +16,29 @@ export default function Home() {
         />
       </Head>
 
-      <main className={styles.main}>
-        <Image
-        src={Menina}
-        alt="Picture of the author"
-        ></Image>
-        <h1>Bem-vindo!</h1>
-        <p>
-          Agende a chegada de caminhões e carros de entregas ao terminal e
-          registre a chegada!{" "}
-        </p>
-        <button className="bg-[#349924] rounded-md" onClick={() => location.pathname = 'demandas/cadastro'}>Continuar</button>
-        <div>
-        <span>Já possui uma conta?</span>
-        <span>Faça Login</span>
+      <main className={` bgWpp ${styles.main}`}>
+        <div className="text-center my-auto mb-4">
+          <h1 className="font-inter font-semibold text-[#6B6458] text-2xl">
+            Bem-vindo!
+          </h1>
+        </div>
+        <div className="text-center mb-24">
+          <p className="font-poppins text-sm font-normal mx-3">
+            Agende a chegada de caminhões e carros de entregas ao terminal e
+            registre a chegada!{" "}
+          </p>
+        </div>
+        <button
+          className="mb-1 font-normal text-xl text-white bg-[#349924] rounded-xl mx-8 px-4 py-4"
+          onClick={() => (location.pathname = "demandas/cadastro")}
+        >
+          Cadastrar demanda
+        </button>
+        <div className="text-center mb-20">
+          <span>Já possui alguma?</span>
+          <a href="/demandas/dashboard" className=" text-[#349924] font-bold"> Veja aqui</a>
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   );
 }
