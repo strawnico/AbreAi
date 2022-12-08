@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import Menina from "../public/menina.svg"
 
 export default function Home() {
   return (
@@ -16,7 +17,20 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1>oi</h1>
+        <Image
+        src={Menina}
+        alt="Picture of the author"
+        ></Image>
+        <h1>Bem-vindo!</h1>
+        <p>
+          Agende a chegada de caminhões e carros de entregas ao terminal e
+          registre a chegada!{" "}
+        </p>
+        <button className="bg-[#349924] rounded-md" onClick={() => location.pathname = 'demandas/cadastro'}>Continuar</button>
+        <div>
+        <span>Já possui uma conta?</span>
+        <span>Faça Login</span>
+        </div>
       </main>
 
       <footer className={styles.footer}>
