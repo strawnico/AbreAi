@@ -21,7 +21,7 @@ export default function Home() {
     try {
       const docRef = await addDoc(collection(db, "demandas"), {
         plate: placa.toUpperCase(),
-        adress: endereco,
+        address: endereco,
         name: entregador,
         exitPrevista: saidaPrevista,
         arrivePrevista: chegadaPrevista,

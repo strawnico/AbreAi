@@ -1,33 +1,84 @@
 import { useState, useEffect } from "react";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import ReactDom from "react-dom";
+import { db } from "../utils/firebase.js";
+import Image from "next/image.js";
+import update from "../assets/update.svg";
+import delet from "../assets/delete.svg";
 
 const myLoader = ({ src }) => {
   return `${src}`;
 };
 
-export default function Modal({ show, onClose, demand }) {
+export default function Modal({ show, onClose, demanda }) {
   const [isBrowser, setIsBrowser] = useState(false);
+  const [demandas, setDemandas] = useState([]);
 
   useEffect(() => {
     setIsBrowser(true);
-  }, [demand]);
+  }, [demanda]);
 
   const handleClose = (event) => {
     event.preventDefault();
     onClose();
   };
 
+  const fetchData = async () => {
+    const querySnapshot = await getDocs(collection(db, "demandas"));
+
+    const lista = [];
+
+    querySnapshot.forEach((doc) => {
+      lista.push({ ...doc.data(), id: doc.id });
+    });
+
+    setDemandas(lista);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const modalContent = show ? (
-    <section className="fixed top-0 left-0 w-full h-full flex content-center items-center bg-center bg-black bg-opacity-70">
-      <div className="WppModal w-5/6 max-w-3xl rounded-2xl m-auto h-[500px] bg-[#171717] z-50">
-        <div className="flex justify-end text-2xl text-white">
+    <section className="fixed top-0 w-full h-full flex bg-black bg-opacity-70">
+      <div className="WppModal mb-0 w-full max-w-3xl rounded-t-2xl m-auto h-60 bg-white z-50">
+        <div className="flex justify-end text-2xl text-black">
           <a href="#" onClick={handleClose} className=" mt-2 mr-3">
-            {/* <Image src={CloseButton} alt="Close" /> */}X
+            X
           </a>
         </div>
-        <div className="center pl-10 pb-10 flex">
-          <div className="flex-col ml-6">
-            <h1 className="pt-4 py-1 font-semibold inter text-2xl">oii</h1>
+        <div>
+          <div className="center pl-10 flex-col">
+            <div className="flex">
+              <h1 className="mb-2 text-xl font-bold">Informações</h1>
+              <Image className="ml-20" src={update} alt="Picture of the author" />
+              <Image src={delet} alt="Picture of the author" />
+            </div>
+
+            <div>
+              <span className=" font-semibold">Entrega em:</span>{" "}
+              <span>{demanda.address}</span>
+            </div>
+
+            <div>
+              <span className=" font-semibold">Hora prevista de saída:</span>{" "}
+              <span>{demanda.exitPrevista}</span>
+            </div>
+
+            <div>
+              <span className=" font-semibold">Hora prevista de chegada:</span>{" "}
+              <span>{demanda.arrivePrevista}</span>
+            </div>
+
+            <div>
+              <span className=" font-semibold">Entregador:</span>{" "}
+              <span>{demanda.name}</span>
+            </div>
+
+            <div>
+              <span className=" font-semibold">Placa:</span>{" "}
+              <span>{demanda.plate}</span>
+            </div>
           </div>
         </div>
       </div>

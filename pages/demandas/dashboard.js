@@ -14,7 +14,7 @@ export default function Dashboard() {
   const handleOpenModal = (demanda) => {
     setModalDemand(demanda);
     setShowModal(true);
-    console.log(showModal, modalDemand)
+    console.log(showModal, modalDemand);
   };
 
   const fetchData = async () => {
@@ -33,6 +33,7 @@ export default function Dashboard() {
   useEffect(() => {
     fetchData();
   }, []);
+  
   return (
     <div>
       <Head>
@@ -49,8 +50,9 @@ export default function Dashboard() {
         <div>
           {demandas.map((demanda) => (
             <div
+              onClick={() => handleOpenModal(demanda)}
               key={demanda.id}
-              className={`flex bg-gray-100 mx-5 mt-3 rounded-lg h-28 ${
+              className={`cursor-pointer flex bg-gray-100 mx-5 mt-3 rounded-lg h-28 ${
                 demanda.arrivePrevista <= demanda.arrive
                   ? "border-l-8 border-green-600"
                   : "border-l-8 border-red-600"
@@ -62,13 +64,7 @@ export default function Dashboard() {
                   <p className="font-bold">{demanda.exitPrevista} -</p>
                   <p className="font-bold ml-1">{demanda.arrivePrevista}</p>
                 </div>
-                <p className="">{demanda.adress}</p>
-              </div>
-              <div
-                onClick={() => handleOpenModal(demanda)}
-                className="cursor-pointer ml-auto mt-3 mrc-3 material-icons text-2xl text-gray-400"
-              >
-                more_vert
+                <p className="">{demanda.address}</p>
               </div>
             </div>
           ))}
