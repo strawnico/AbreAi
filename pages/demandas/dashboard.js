@@ -21,7 +21,6 @@ export default function Dashboard() {
     const querySnapshot = await getDocs(collection(db, "demandas"));
 
     const lista = [];
-    const date = new Date().toLocaleTimeString();
 
     querySnapshot.forEach((doc) => {
       lista.push({ ...doc.data(), id: doc.id });
@@ -33,7 +32,7 @@ export default function Dashboard() {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   return (
     <div>
       <Head>
@@ -53,7 +52,7 @@ export default function Dashboard() {
               onClick={() => handleOpenModal(demanda)}
               key={demanda.id}
               className={`cursor-pointer flex bg-gray-100 mx-5 mt-3 rounded-lg h-28 ${
-                demanda.arrivePrevista <= demanda.arrive
+                demanda.arrive
                   ? "border-l-8 border-green-600"
                   : "border-l-8 border-red-600"
               }`}
