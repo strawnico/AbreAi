@@ -24,19 +24,9 @@ a {
 
 .bgWpp {
   background-color: #ffffff;
-  background-image: url("../public/Wpp.svg");
+  background-image: url("../assets/Wpp.svg");
   background-position: top center;
   background-size: 100%;
   background-repeat: no-repeat;
   position: absolute;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-} */

@@ -2,7 +2,7 @@ import { db } from "../../utils/firebase.js";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import logo from "../../public/logoSem.svg";
+import logo from "../../assets/logoSem.svg";
 import Head from "next/head";
 import Modal from "../../components/modal.js";
 

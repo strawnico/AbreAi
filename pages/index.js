@@ -14,7 +14,7 @@ export default function Home() {
         />
       </Head>
 
-      <main className={` bgWpp ${styles.main}`}>
+      <main className={`bgWpp ${styles.main}`}>
         <div className="text-center my-auto mb-4">
           <h1 className="font-inter font-semibold text-[#6B6458] text-xl">
             Bem-vindo!

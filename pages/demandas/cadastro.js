@@ -49,7 +49,7 @@ export default function Home() {
       <main className={styles.main}>
         <nav className="w-full justify-center flex mt-4 relative">
           <div className="ml-4  mr-auto">
-            <Link href="/">
+            <Link href="/demandas/dashboard">
               <span className=" material-icons text-3xl text-[#349924]">
                 navigate_before
               </span>
