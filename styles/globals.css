@@ -24,7 +24,7 @@ a {
 
 .bgWpp {
   background-color: #ffffff;
-  background-image: url("../public/wpp/Wpp.svg");
+  background-image: url("/wpp/Wpp.svg");
   background-position: top center;
   background-size: 100%;
   background-repeat: no-repeat;
