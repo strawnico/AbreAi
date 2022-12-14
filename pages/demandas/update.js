@@ -1,37 +1,42 @@
 import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import { db } from "../../utils/firebase.js";
-import { collection, addDoc } from "firebase/firestore";
-import { useState } from "react";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
-export default function Home() {
-  const [placa, setPlaca] = useState("");
-  const [endereco, setEndereco] = useState("");
-  const [entregador, setEntregador] = useState("");
-  const [saidaPrevista, setSaidaPrevista] = useState("");
-  const [chegadaPrevista, setChegadaPrevista] = useState("");
-  const [chegada, setChegada] = useState("");
+export default function Home({ demanda }) {
+  const [isBrowser, setIsBrowser] = useState(true);
+  const [demandas, setDemandas] = useState([]);
 
-  const addDemand = async () => {
-    if (placa.length < 7) {
-      alert("A placa precisa ter no mínimo 7 caracteres.");
-      return;
-    }
-    try {
-      const docRef = await addDoc(collection(db, "demandas"), {
-        plate: placa.toUpperCase(),
-        address: endereco,
-        name: entregador,
-        exitPrevista: saidaPrevista,
-        arrivePrevista: chegadaPrevista,
-        arrive: chegada,
-        
-      });
-      window.location.pathname = "demandas/dashboard";
-    } catch (error) {
-      console.error(error);
-    }
+  useEffect(() => {
+    setIsBrowser(true);
+  }, [demanda]);
+
+  const fetchData = async () => {
+    const querySnapshot = await getDocs(collection(db, "demandas"));
+
+    const lista = [];
+
+    querySnapshot.forEach((doc) => {
+      lista.push({ ...doc.data(), id: doc.id });
+    });
+
+    setDemandas(lista);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const updateAddress = async () => {
+    const querySnapshot = await updateDoc(doc(db, "demandas", demanda.id));
   };
 
   return (
@@ -56,14 +61,14 @@ export default function Home() {
             </Link>
           </div>
           <div className="mr-auto absolute">
-            <h1 className="text-2xl font-medium">Cadastrar demanda</h1>
+            <h1 className="text-2xl font-medium">Editar demanda</h1>
           </div>
         </nav>
         <div className="w-full flex flex-col items-center mt-8">
           <div className="max-w-sm min-w-max w-4/5 text-left">
             <p>Local de entrega</p>
             <input
-              onChange={(e) => setEndereco(e.target.value)}
+              onClick={() => updateAddress()}
               className="w-full max-w-sm min-w-max border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
               placeholder="Digite o endereço da entrega"
             ></input>
@@ -112,7 +117,7 @@ export default function Home() {
             onClick={() => addDemand()}
             className="text-white w-4/5 max-w-sm min-w-max bg-[#349924] px-2 rounded-xl mt-2 pl-5 py-4"
           >
-            Finalizar
+            Salvar
           </button>
         </div>
       </main>

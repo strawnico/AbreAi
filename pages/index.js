@@ -1,7 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import Menina from "../public/menina.svg";
 
 export default function Home() {
   return (
@@ -18,25 +16,25 @@ export default function Home() {
 
       <main className={` bgWpp ${styles.main}`}>
         <div className="text-center my-auto mb-4">
-          <h1 className="font-inter font-semibold text-[#6B6458] text-2xl">
+          <h1 className="font-inter font-semibold text-[#6B6458] text-xl">
             Bem-vindo!
           </h1>
         </div>
-        <div className="text-center mb-24">
+        <div className="text-center mb-20">
           <p className="font-poppins text-sm font-normal mx-3">
             Agende a chegada de caminhões e carros de entregas ao terminal e
             registre a chegada!{" "}
           </p>
         </div>
         <button
-          className="mb-1 font-normal text-xl text-white bg-[#349924] rounded-xl mx-8 px-4 py-4"
+          className="mb-1 font-normal text-md text-white bg-[#349924] rounded-xl mx-12 py-2"
           onClick={() => (location.pathname = "demandas/cadastro")}
         >
           Cadastrar demanda
         </button>
-        <div className="text-center mb-20">
-          <span>Já possui alguma?</span>
-          <a href="/demandas/dashboard" className=" text-[#349924] font-bold"> Veja aqui</a>
+        <div className="text-center mb-10">
+          <span className="text-sm">Já possui alguma?</span>
+          <a href="/demandas/dashboard" className=" text-sm text-[#349924] font-bold"> Veja aqui</a>
         </div>
       </main>
     </div>
