@@ -46,7 +46,7 @@ export default function Dashboard() {
       </Head>
       <main>
         <h1 className="ml-5 my-5 text-2xl font-medium">Dashboard</h1>
-        <div>
+        <div className=" h-full">
           {demandas.map((demanda) => (
             <div
               onClick={() => handleOpenModal(demanda)}
@@ -64,9 +64,17 @@ export default function Dashboard() {
                   <p className="font-bold ml-1">{demanda.arrivePrevista}</p>
                 </div>
                 <p className="">{demanda.address}</p>
-              </div>
+              </div>{" "}
             </div>
           ))}
+          <div className="flex h-full">
+            <span
+              onClick={() => (location.pathname = "demandas/cadastro")}
+              className="text-green-500 material-icons text-6xl cursor-pointer bottom-10 right-7 absolute"
+            >
+              add_circle
+            </span>
+          </div>
         </div>
         <Modal
           show={showModal}

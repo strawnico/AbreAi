@@ -1,9 +1,17 @@
 import Head from "next/head";
-import styles from "../../styles/Home.module.css";
-import { db } from "../../utils/firebase.js";
-import { collection, addDoc } from "firebase/firestore";
-import { useState } from "react";
+import styles from "../../../styles/Home.module.css";
+import { db } from "../../../utils/firebase.js";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+  getDocs,
+  getDoc
+} from "firebase/firestore";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/router'
 
 export default function Home() {
   const [placa, setPlaca] = useState("");
@@ -12,27 +20,70 @@ export default function Home() {
   const [saidaPrevista, setSaidaPrevista] = useState("");
   const [chegadaPrevista, setChegadaPrevista] = useState("");
   const [chegada, setChegada] = useState("");
+  const [isBrowser, setIsBrowser] = useState(true);
+  const [demanda, setDemanda] = useState([]);
 
-  const addDemand = async () => {
+  const router = useRouter()
+  const { id } = router.query
+
+  const updateDemand = async () => {
     if (placa.length < 7) {
       alert("A placa precisa ter no mínimo 7 caracteres.");
       return;
     }
     try {
-      const docRef = await addDoc(collection(db, "demandas"), {
+      const querySnapshot = doc(db, "demandas", id);
+      await updateDoc(querySnapshot, {
         plate: placa.toUpperCase(),
         address: endereco,
         name: entregador,
         exitPrevista: saidaPrevista,
         arrivePrevista: chegadaPrevista,
         arrive: chegada,
-        
       });
-      window.location.pathname = "demandas/dashboard";
+      window.location.pathname = "/demandas/dashboard";
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
+  const fetchData = async () => {
+
+    if (!id) return
+    console.log(id)
+
+    const docRef = doc(db, "demandas", id);
+    const docSnap = await getDoc(docRef);
+    
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setDemanda(docSnap.data());
+      setPlaca(demanda.plate);
+      setEndereco(demanda.address);
+      setEntregador(demanda.name);
+      setSaidaPrevista(demanda.exitPrevista);
+      setChegadaPrevista(demanda.arrivePrevista);
+
+    } else {
+      console.log("No such document!");
+    }
+  };
+
+  useEffect(() => {
+    setPlaca(demanda.plate);
+    setEndereco(demanda.address);
+    setEntregador(demanda.name);
+    setSaidaPrevista(demanda.exitPrevista);
+    setChegadaPrevista(demanda.arrivePrevista);
+  }, [demanda])
+
+  useEffect(() => {
+    fetchData();
+  }, [id]);
 
   return (
     <div className={styles.container}>
@@ -49,14 +100,14 @@ export default function Home() {
       <main className={styles.main}>
         <nav className="w-full justify-center flex mt-4 relative">
           <div className="ml-4  mr-auto">
-            <Link href="/">
+            <Link href="/demandas/dashboard">
               <span className=" material-icons text-3xl text-[#349924]">
                 navigate_before
               </span>
             </Link>
           </div>
           <div className="mr-auto absolute">
-            <h1 className="text-2xl font-medium">Cadastrar demanda</h1>
+            <h1 className="text-2xl font-medium">Editar demanda</h1>
           </div>
         </nav>
         <div className="w-full flex flex-col items-center mt-8">
@@ -64,8 +115,10 @@ export default function Home() {
             <p>Local de entrega</p>
             <input
               onChange={(e) => setEndereco(e.target.value)}
-              className="w-full max-w-sm min-w-max border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
+              className="w-full max-w-sm min-w-max border border-gray-400 outline-none focus:border-green-600 rounded-xl pl-5 py-2"
               placeholder="Digite o endereço da entrega"
+              value={endereco || ""}
+
             ></input>
           </div>
 
@@ -73,8 +126,9 @@ export default function Home() {
             <p>Nome do entregador</p>
             <input
               onChange={(e) => setEntregador(e.target.value)}
-              className="w-full max-w-sm min-w-max border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
+              className=" w-full max-w-sm min-w-max border border-gray-400 outline-none focus:border-green-500 rounded-xl pl-5 py-2"
               placeholder="Ex: Luis Crisvaldo"
+              value={entregador || ""}
             ></input>
           </div>
 
@@ -82,8 +136,9 @@ export default function Home() {
             <p>Placa do carro</p>
             <input
               onChange={(e) => setPlaca(e.target.value)}
-              className="w-full max-w-sm min-w-max border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2 uppercase"
+              className="w-full max-w-sm min-w-max border border-gray-400 outline-none focus:border-green-500 rounded-xl pl-5 py-2 uppercase"
               placeholder="XXXXXXX"
+              value={placa || ""}
             ></input>
           </div>
 
@@ -92,18 +147,20 @@ export default function Home() {
               <p>Horario saída</p>
               <input
                 onChange={(e) => setSaidaPrevista(e.target.value)}
-                className=" w-36 border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
+                className=" w-36 border border-gray-400 outline-none focus:border-green-500 rounded-xl pl-5 py-2"
                 placeholder="00:00"
                 type="time"
+                value={saidaPrevista || ""}
               ></input>
             </div>
             <div>
               <p>Horario Chegada</p>
               <input
                 onChange={(e) => setChegadaPrevista(e.target.value)}
-                className=" w-36 border border-gray-400 outline-none hover:border-green-400 rounded-xl pl-5 py-2"
+                className=" w-36 border border-gray-400 outline-none focus:border-green-500 rounded-xl pl-5 py-2"
                 placeholder="00:00"
                 type="time"
+                value={chegadaPrevista || ""}
               ></input>
             </div>
           </div>
@@ -111,10 +168,10 @@ export default function Home() {
 
         <div className="justify-center flex mt-auto mb-10">
           <button
-            onClick={() => addDemand()}
+            onClick={() => updateDemand()}
             className="text-white w-4/5 max-w-sm min-w-max bg-[#349924] px-2 rounded-xl mt-2 pl-5 py-4"
           >
-            Finalizar
+            Salvar
           </button>
         </div>
       </main>

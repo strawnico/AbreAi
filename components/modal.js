@@ -51,7 +51,6 @@ export default function Modal({ show, onClose, demanda }) {
     fetchData();
   }, []);
 
-  
   const modalContent = show ? (
     <section className="fixed top-0 w-full h-full flex bg-black bg-opacity-70">
       <div className="WppModal mb-0 w-full max-w-3xl rounded-t-2xl m-auto h-60 bg-white z-50">
@@ -61,16 +60,18 @@ export default function Modal({ show, onClose, demanda }) {
             <h1 className=" text-xl font-bold">Informações</h1>
             <div className="flex mx-auto mr-5">
               <Image
-                onClick={() => (location.pathname = "demandas/update")}
-                width={25}
+                onClick={() =>
+                  (location.pathname = `demandas/update/${demanda.id}`)
+                }
+                width={30}
                 className="cursor-pointer"
                 src={update}
                 alt="Edit button"
               />
               <Image
                 onClick={handleClose}
-                width={25}
-                className="cursor-pointer ml-2"
+                width={30}
+                className="cursor-pointer ml-3"
                 src={close}
                 alt="Close button"
               />
